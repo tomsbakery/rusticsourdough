@@ -27,4 +27,5 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
 
 ## Needed improvements
 - The user name, token information, etc, should be stored environmentally and/or within a secrets store
+- Add some kind of authentication to the Lambda function
 - The deployment procedure could be wrapped inside a Terraform (or similar) provisioning scheme
