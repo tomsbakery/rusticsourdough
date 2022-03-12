@@ -16,6 +16,7 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
   - There is additional discussion on this page on how to generate language-specific library dependencies, although a dependencies.zip containing the requisite Python libraries is provided in this repository as a convenience
 - [Add the layer to the function you created](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html#invocation-layers-using)
 - Modify the source code of this application to reflect relevant values for your GitHub organization/owner, user name, and [GitHub authentication token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+  - You might also like to change the prescribed [branch protections](https://docs.github.com/en/rest/reference/branches#update-branch-protection) per the payload being sent
 - Insert source code into the AWS Lambda function
   - That is, in the actual console, paste it into `your-function-name/lambda_function.py`
 - Deploy the function
