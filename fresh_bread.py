@@ -14,7 +14,6 @@ post an issue to the repo stating what just happened
 from base64 import b64encode
 from json import dumps
 from json import loads
-from time import sleep
 import requests
 
 GH_ORG_NAME = "ORG_NAME"
@@ -30,7 +29,7 @@ PROTECTIONS_PAYLOAD_DICT = {
     },
     "restrictions": None
 }
-ISSUE_POST_PAYLOAD_DICT = {
+ISSUE_PAYLOAD_DICT = {
     "title": "Repository protections",
     "body": \
     "Heyo @nrgetik, the following protections were just enabled on the default branch of this "
@@ -67,25 +66,28 @@ def request_debug(res):
         "body": {
             "request": {
                 "url": res.request.url,
-                # almost definitely problems with this approach
-                # depending on error condition, but ¯\_(ツ)_/¯
-                "headers": dict(res.request.headers),
-                "body": loads(res.request.body.replace("\\", ""))
+                # i would like for this to be sophiscated enough to produce a readable
+                # debug payload, but alas the approach has issues of its own
+                # "headers": dict(res.request.headers),
+                # "body": loads(res.request.body.replace("\\", ""))
+                "headers": str(res.request.headers),
+                "body": str(res.request.body)
+
             },
             "response": {
                 "statusCode": res.status_code,
                 "url": res.url,
                 "reason": res.reason,
-                "headers": dict(res.headers),
-                "body": loads(res.text.replace("\\", ""))
+                # "headers": dict(res.headers),
+                # "body": loads(res.text.replace("\\", ""))
+                "headers": str(res.headers),
+                "body": str(res.text)
             }
         }
     }
 
 def lambda_handler(event, context):
     """handles incoming events from github webhooks"""
-    # a wee nap just in case things need to settle first
-    sleep(0.2)
     # actual_event = event # for testing in lambda with bare event payloads
     actual_event = loads(event["body"]) # for the real thing
 
@@ -112,17 +114,15 @@ def lambda_handler(event, context):
                 response = gh_request("PUT", f"/repos/{owner}/{repo}/contents/README.md",
                             payload=dumps(commit_dict))
                 response.raise_for_status()
-                sleep(0.1)
-                response = gh_request("PUT",
-                            f"/repos/{owner}/{repo}/branches/main/protection/required_pull_request_reviews",
-                            payload=(PROTECTIONS_PAYLOAD_DICT))
+                response = gh_request("PUT", f"/repos/{owner}/{repo}/branches/main/protection",
+                            payload=dumps(PROTECTIONS_PAYLOAD_DICT))
                 response.raise_for_status()
             # now let's toss an issue in there to describe what we just did
             response = gh_request("POST", f"/repos/{owner}/{repo}/issues",
-                        payload=dumps(ISSUE_POST_PAYLOAD_DICT))
+                        payload=dumps(ISSUE_PAYLOAD_DICT))
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            sleep(0.2)
+            print(request_debug(response))
             return request_debug(response)
 
     return { "statusCode": 200, "body": "Everything is probably fine" }
