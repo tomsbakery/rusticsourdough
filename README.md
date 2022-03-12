@@ -11,7 +11,6 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
 ## Deployment procedure
 - [Create an AWS Lamba function](https://docs.aws.amazon.com/lambda/latest/dg/getting-started-create-function.html#gettingstarted-zip-function)
   - For "Runtime", select Python 3.9
-  - Configure a timeout of 60 seconds rather than the default 3
 - [Create a layer with dependencies.zip](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-create)
   - Compatible with Python 3.9 runtime
   - There is additional discussion on this page on how to generate language-specific library dependencies, although a dependencies.zip containing the requisite Python libraries is provided in this repository as a convenience
@@ -28,5 +27,5 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
 
 ## Needed improvements
 - The user name, token information, etc, should be stored environmentally and/or within a secrets store
-- Add some kind of authentication to the Lambda function
+- Add secret-based authentication to the Lambda function
 - The deployment procedure could be wrapped inside a Terraform (or similar) provisioning scheme
