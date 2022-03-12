@@ -12,6 +12,7 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
 - [Create an AWS Lamba function](https://docs.aws.amazon.com/lambda/latest/dg/getting-started-create-function.html#gettingstarted-zip-function)
   - For "Runtime", select Python 3.9
 - [Create a layer with dependencies.zip](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html#configuration-layers-create)
+  - Compatible with Python 3.9 runtime
   - There is additional discussion on this page on how to generate language-specific library dependencies, although a dependencies.zip containing the requisite Python libraries is provided in this repository as a convenience
 - [Add the layer to the function you created](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html#invocation-layers-using)
 - Modify the source code of this application to reflect relevant values for your GitHub organization/owner, user name, and [GitHub authentication token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
