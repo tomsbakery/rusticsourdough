@@ -16,7 +16,10 @@ from json import dumps
 from json import loads
 import requests
 
+# put these in your environment and/or a secrets store
 GH_ORG_NAME = "ORG_NAME"
+GH_USER_NAME = "USER_NAME"
+GH_ACCESS_TOKEN = "PERSONAL_ACCESS_TOKEN"
 PROTECTIONS_PAYLOAD_DICT = {
     "required_status_checks": None,
     "enforce_admins": True,
@@ -45,16 +48,16 @@ def gh_request(action, resource, payload=None, addtl_headers=None):
     full_url = f"{gh_rest_base_url}{resource}"
     gh_base_headers = {"Accept": "application/vnd.github.v3+json"}
     full_headers = gh_base_headers|addtl_headers if addtl_headers else gh_base_headers
-    # put these in your environment and/or a secrets store
-    gh_user = "USER_NAME"
-    gh_token = "PERSONAL_ACCESS_TOKEN"
     # starting in python 3.10 there's a match/case pattern, but this is probably 3.9
     if action == "GET":
-        res = requests.get(full_url, headers=full_headers, auth=(gh_user, gh_token))
+        res = requests.get(full_url, headers=full_headers,
+                            auth=(GH_USER_NAME, GH_ACCESS_TOKEN))
     elif action == "POST":
-        res = requests.post(full_url, headers=full_headers, data=payload, auth=(gh_user, gh_token))
+        res = requests.post(full_url, headers=full_headers, data=payload,
+                            auth=(GH_USER_NAME, GH_ACCESS_TOKEN))
     elif action == "PUT":
-        res = requests.put(full_url, headers=full_headers, data=payload, auth=(gh_user, gh_token))
+        res = requests.put(full_url, headers=full_headers, data=payload,
+                            auth=(GH_USER_NAME, GH_ACCESS_TOKEN))
     else:
         return False
     return res
