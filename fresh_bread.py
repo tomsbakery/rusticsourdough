@@ -86,8 +86,8 @@ def lambda_handler(event, context):
     """handles incoming events from github webhooks"""
     # a wee nap just in case things need to settle first
     sleep(0.2)
-    actual_event = event # for testing in lambda with bare event payloads
-    # actual_event = loads(event["body"]) # for the real thing
+    # actual_event = event # for testing in lambda with bare event payloads
+    actual_event = loads(event["body"]) # for the real thing
 
     # GH will push to us on a few repo events, but let's only do stuff when a repo is created
     if actual_event["action"] == "created":
