@@ -20,6 +20,7 @@ It primarily utilizes [the GitHub REST API](https://docs.github.com/en/rest) to 
   - That is, in the actual console, paste it into `your-function-name/lambda_function.py`
 - Deploy the function
 - [Add an HTTP API endpoint to your Lamba function](https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway.html#apigateway-add)
+  - "Add a trigger" initiates this flow
 - Finally, use the publicly accessible HTTP API endpoint URL to create and configure an appropriate [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks)
   - It should point to the HTTP API endpoint you created for your Lambda function
   - It should only push Repositories events
