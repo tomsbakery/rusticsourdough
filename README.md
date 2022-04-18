@@ -16,6 +16,7 @@ modules.
   * Your AWS account configured in a profile
 * A GitHub account and organization
 * A [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+with, at minimum, full `repo` scope for access permissions.
 
 ## Usage
 
