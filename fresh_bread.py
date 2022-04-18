@@ -14,12 +14,12 @@ post an issue to the repo stating what just happened
 from base64 import b64encode
 from json import dumps
 from json import loads
+from os import environ
 import requests
 
-# put these in your environment and/or a secrets store
-GH_ORG_NAME = "ORG_NAME"
-GH_USER_NAME = "USER_NAME"
-GH_ACCESS_TOKEN = "PERSONAL_ACCESS_TOKEN"
+GH_ORG_NAME = environ["GH_ORG_NAME"]
+GH_USER_NAME = environ["GH_USER_NAME"]
+GH_ACCESS_TOKEN = environ["GH_ACCESS_TOKEN"]
 PROTECTIONS_PAYLOAD_DICT = {
     "required_status_checks": None,
     "enforce_admins": True,
@@ -91,8 +91,11 @@ def request_debug(res):
 
 def lambda_handler(event, context):
     """handles incoming events from github webhooks"""
-    # actual_event = event # for testing in lambda with bare event payloads
-    actual_event = loads(event["body"]) # for the real thing
+    try:
+        # actual_event = event # for testing in lambda with bare event payloads
+        actual_event = loads(event["body"]) # for the real thing
+    except KeyError:
+        return { "statusCode": 400, "body": "Malformed/invalid request body" }
 
     # GH will push to us on a few repo events, but let's only do stuff when a repo is created
     if actual_event["action"] == "created":
@@ -125,7 +128,6 @@ def lambda_handler(event, context):
                         payload=dumps(ISSUE_PAYLOAD_DICT))
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            print(request_debug(response))
             return request_debug(response)
 
     return { "statusCode": 200, "body": "Everything is probably fine" }
