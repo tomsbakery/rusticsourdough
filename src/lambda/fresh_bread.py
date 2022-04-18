@@ -95,7 +95,9 @@ def lambda_handler(event, context):
         # actual_event = event # for testing in lambda with bare event payloads
         actual_event = loads(event["body"]) # for the real thing
     except KeyError:
-        return { "statusCode": 400, "body": "Malformed/invalid request body" }
+        return { "statusCode": 400, "body": "Malformed/invalid request" }
+    except TypeError:
+        return { "statusCode": 400, "body": "Empty request" }
 
     # GH will push to us on a few repo events, but let's only do stuff when a repo is created
     if actual_event["action"] == "created":

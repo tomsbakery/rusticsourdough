@@ -74,10 +74,12 @@ module "api_gateway" {
   default_stage_access_log_format          = "$context.identity.sourceIp - - [$context.requestTime] \"$context.httpMethod $context.routeKey $context.protocol\" $context.status $context.responseLength $context.requestId $context.integrationErrorMessage"
 
   integrations = {
+    "ANY /" = {
+      lambda_arn = module.lambda_function.lambda_function_arn
+    }
     "ANY /fresh_bread" = {
       lambda_arn = module.lambda_function.lambda_function_arn
     }
-
     "$default" = {
       lambda_arn = module.lambda_function.lambda_function_arn
     }
@@ -91,7 +93,5 @@ resource "random_pet" "this" {
 }
 
 resource "aws_cloudwatch_log_group" "logs" {
-  name = random_pet.this.id
-
-  retention_in_days = 1
+  name = "${random_pet.this.id}-apigateway"
 }
