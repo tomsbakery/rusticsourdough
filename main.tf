@@ -39,10 +39,9 @@ module "lambda_function" {
   ]
 
   environment_variables = {
-    # get these from Vault, or retrieve them from someplace secure in your local environment
-    GH_ORG_NAME     = "YOUR_GH_ORG_NAME"
-    GH_USER_NAME    = "YOUR_GH_USER_NAME"
-    GH_ACCESS_TOKEN = "YOUR_GH_ACCESS_TOKEN"
+    GH_ORG_NAME     = var.gh_org_name
+    GH_USER_NAME    = var.gh_user_name
+    GH_ACCESS_TOKEN = var.gh_access_token
   }
 
   allowed_triggers = {
