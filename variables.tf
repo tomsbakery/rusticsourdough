@@ -13,3 +13,20 @@ variable "aws_profile" {
   type    = string
   default = "default"
 }
+
+variable "gh_org_name" {
+  description = "GitHub organization name."
+
+  type = string
+}
+
+variable "gh_user_name" {
+  description = "GitHub user name."
+
+  type = string
+}
+variable "gh_access_token" {
+  description = "GitHub personal access token."
+
+  type = string
+}
