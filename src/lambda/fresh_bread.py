@@ -11,10 +11,12 @@ check for the existence of a default branch in the newly created repo
 post an issue to the repo stating what just happened
 """
 
+from base64 import b64decode
 from base64 import b64encode
 from json import dumps
 from json import loads
 from os import environ
+from urllib.parse import unquote
 import requests
 
 GH_ORG_NAME = environ["GH_ORG_NAME"]
@@ -93,7 +95,7 @@ def lambda_handler(event, context):
     """handles incoming events from github webhooks"""
     try:
         # actual_event = event # for testing in lambda with bare event payloads
-        actual_event = loads(event["body"]) # for the real thing
+        actual_event = loads(unquote(b64decode(event["body"]))[8:])
     except KeyError:
         return { "statusCode": 400, "body": "Malformed/invalid request" }
     except TypeError:
