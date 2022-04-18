@@ -22,8 +22,14 @@ with, at minimum, full `repo` scope for access permissions
 
 1. Clone this repository
 2. Run `terraform init` to initialize Terraform backend
-3. Set your AWS profile name and region, as well as GitHub user name, personal access token, and
-organization name in `terraform.tfvars`
+3. Create a `terraform.tfvars` file which looks like the following with your values substituted:
+```
+aws_region      = "ca-central-1"
+aws_profile     = "personal-aws"
+gh_org_name     = "tomsbakery"
+gh_user_name    = "tom_the_baker"
+gh_access_token = "access_token"
+```
 4. Run `terraform plan`
 5. If the plan looks good, run `terraform apply`
 6. Configure the provided `endpoint_url` in the Terraform output as a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks)
