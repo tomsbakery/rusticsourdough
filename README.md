@@ -15,7 +15,7 @@ modules.
 * The [AWS CLI (2.0+)](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
   * Your AWS account configured in a profile
 * A GitHub account and organization
-* A GitHub personal access token
+* A [GitHub personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 
 ## Usage
 
