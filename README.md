@@ -19,7 +19,6 @@ modules.
 with, at minimum, full `repo` scope for access permissions
 
 ## Usage
-
 1. Clone this repository
 2. Run `terraform init` to initialize Terraform backend
 3. Create a `terraform.tfvars` file which looks like the following with your values substituted:
@@ -34,6 +33,15 @@ gh_access_token = "access_token"
 5. If the plan looks good, run `terraform apply`
 6. Configure the provided `endpoint_url` in the Terraform output as a [GitHub webhook](https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhooks)
 applicable to your organization. It need only push `Respositories` events
+
+## Notes
+It may not be obvious how certain tunables are making their way into the `fresh_bread.py` Lambda
+worker process. The GitHub organization name, user name, and personal access token defined in the
+`terraform.tfvars` file are referenced in `main.tf` under the `environment_variables` data structure
+of the `lambda_function` module. During provisioning, the Terraform module translates these into
+[AWS Lambda environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html),
+which can then be accessed from, for example, a Python application using the common `os.environ`
+procedure, which is the approach that I have taken in `fresh_bread.py`
 
 ## Possible enhancements
 - Support for credential store(s) for secrets
