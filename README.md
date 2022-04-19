@@ -41,7 +41,7 @@ worker process. The GitHub organization name, user name, and personal access tok
 of the `lambda_function` module. During provisioning, the Terraform module translates these into
 [AWS Lambda environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html),
 which can then be accessed from, for example, a Python application using the common `os.environ`
-procedure, which is the approach that I have taken in `fresh_bread.py`
+procedure, which is the approach that you see in `fresh_bread.py`
 
 ## Possible enhancements
 - Support for credential store(s) for secrets
